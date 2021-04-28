@@ -1,5 +1,5 @@
 // Create WebSocket connection.
-const ws = new WebSocket('ws://' + location.host);
+const ws = new WebSocket('ws://https://ws-chat123.herokuapp.com');
 
 var receiver = "";
 var sender = "";
