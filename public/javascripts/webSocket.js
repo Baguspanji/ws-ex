@@ -54,7 +54,7 @@ $("#login").click(function() {
 });
 
 $("#send").click(function() {
-    if (sender !== '') {
+    if (receiver !== '') {
         var message = $('#message').val();
         send({ method: 'message', params: { from: sender, to: receiver, message: message } });
 
