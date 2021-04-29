@@ -1,5 +1,8 @@
 // Create WebSocket connection.
-const ws = new WebSocket('wss://ws-chat123.herokuapp.com');
+var http = 'wss://ws-chat123.herokuapp.com';
+// var http = 'ws://localhost:5000';
+
+const ws = new WebSocket(http);
 
 var receiver = "";
 var sender = "";
@@ -51,6 +54,8 @@ $("#login").click(function() {
     var username = $('#username').val();
     sender = username;
     send({ id: 1, method: 'username', params: { username: username } })
+    send({ method: 'users' })
+    alert('Client sudah terhubung!')
 });
 
 $("#send").click(function() {
