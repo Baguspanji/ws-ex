@@ -1,7 +1,22 @@
 var express = require('express');
 var router = express.Router();
 
-const db = require('../config/db');
+const db = [{
+        username: 'admin',
+        password: 'admin',
+        nama: 'Admin'
+    },
+    {
+        username: 'client',
+        password: 'client',
+        nama: 'Client'
+    },
+    {
+        username: 'riziq',
+        password: 'riziq',
+        nama: 'Riziq'
+    },
+];
 
 var { setCookies, getCookies } = require('../controller/cookies');
 
@@ -14,18 +29,11 @@ router.post('/chat', function(req, res, next) {
 
     var data = req.body;
 
-    db.connect()
+    var user = db.find(e => e.username === data.username && e.password === data.password);
 
-    var sql = "SELECT * FROM tb_user WHERE username = '" + data.username + "' AND password = '" + data.password + "'";
-    db.query(sql, function(err, result) {
-        if (err) throw err;
+    setCookies(req, res, 'nama', user.nama)
 
-        setCookies(req, res, 'nama', result[0].nama)
-
-        res.render('index', { nama: result[0].nama });
-    });
-
-    db.end()
+    res.render('index', { nama: user.nama });
 });
 
 module.exports = router;
