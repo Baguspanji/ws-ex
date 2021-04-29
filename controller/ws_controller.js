@@ -61,7 +61,7 @@ module.exports = (ws, req) => {
 
             case 'message':
                 var user = users.find(e => e.username == data.params.to)
-                console.log(user.username);
+                console.log('from: ' + data.params.from + ' to: ' + data.params.to + ' message: ' + data.params.message);
                 send(user.ws, {
                     method: 'message',
                     result: {
