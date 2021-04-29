@@ -19,6 +19,20 @@ const isUsernameTaken = (username) => {
     return taken;
 }
 
+function findIndex(name) {
+    var i = 0;
+    for (i = 0; i < users.length; i++) {
+        if (users[i].username === name) {
+            return i;
+        }
+    }
+    return i;
+}
+
+function updateData(arg, ws) {
+    users[arg].ws = ws;
+}
+
 module.exports = (ws, req) => {
     ws.on('message', (msg) => {
         const data = JSON.parse(msg);
@@ -26,10 +40,11 @@ module.exports = (ws, req) => {
         switch (data.method) {
             case 'username':
                 if (isUsernameTaken(data.params.username)) {
+                    updateData(findIndex(data.params.username), ws);
                     send(ws, {
                         id: data.id,
                         method: 'login',
-                        error: { status: 'username is taken' }
+                        error: { status: 'update' }
                     })
                 } else {
                     users.push({
