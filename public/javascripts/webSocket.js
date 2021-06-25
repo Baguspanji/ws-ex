@@ -1,6 +1,7 @@
 // Create WebSocket connection.
 // var http = 'wss://ws-chat123.herokuapp.com';
-var http = 'ws://localhost:3000';
+// var http = 'ws://localhost:3000';
+var http = 'ws://147.139.193.105/ws/';
 
 const ws = new WebSocket(http);
 
