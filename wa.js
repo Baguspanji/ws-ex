@@ -111,6 +111,7 @@ router.post('/wa', (req, res) => {
 router.post('/waSend', (req, res) => {
     let nomor = req.body.nomor
     let pesan = req.body.pesan
+    let jumlah = req.body.jumlah
 
     var str = nomor.substr(0, 1);
 
@@ -121,7 +122,8 @@ router.post('/waSend', (req, res) => {
         
     }
 
-    client.sendMessage(nomor + "@c.us", pesan)
+    if (jumlah != null) {
+        client.sendMessage(nomor + "@c.us", pesan)
         .then(() => {
             console.log("Send Success");
             res.json({
@@ -137,6 +139,28 @@ router.post('/waSend', (req, res) => {
                 'messages': pesan
             })
         });
+    } else {
+        for (let i = 0; i < jumlah; i++) {
+            client.sendMessage(nomor + "@c.us", pesan)
+            .then(() => {
+                console.log("Send Success");
+                res.json({
+                    'status': true,
+                    'nomor': nomor,
+                    'messages': pesan
+                })
+            }).catch(() => {
+                console.log("Send Gagal");
+                res.json({
+                    'status': false,
+                    'nomor': nomor,
+                    'messages': pesan
+                })
+            });
+        }
+    }
+
+    
 })
 
 module.exports = router
