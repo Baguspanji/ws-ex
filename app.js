@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var logger = require('morgan');
+var wa = require('./wa');
 
 
 var indexRouter = require('./routes/index');
@@ -26,7 +27,11 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: true }
 }))
+
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(wa);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
