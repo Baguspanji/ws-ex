@@ -122,7 +122,7 @@ router.post('/waSend', (req, res) => {
         
     }
 
-    if (jumlah != null) {
+    if (jumlah == null) {
         client.sendMessage(nomor + "@c.us", pesan)
         .then(() => {
             console.log("Send Success");
