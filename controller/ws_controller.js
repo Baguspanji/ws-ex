@@ -1,4 +1,5 @@
 const users = [];
+const client = [];
 
 const send = (ws, data) => {
     const d = JSON.stringify({
@@ -90,5 +91,54 @@ module.exports = (ws, req) => {
 
         }
 
+        console.log(data);
+        switch (data.type) {
+            case 'socket':
+                if (isIdTaken(data.user_id)) {
+                    isIdUpdate(findId(data.user_id), ws);
+                    
+                }else{
+                    client.push({
+                        user_id: data.user_id,
+                        ws: ws,
+                    });
+                }
+                break;
+            case 'chat':
+                var user = client.find(e => e.user_id == data.recipient_id)
+                console.log('from: ' + data.user_id + ' to: ' + data.recipient_id + ' message: ' + data.message);
+                send(user.ws, {
+                    user_id: data.user_id,
+                    message: data.message
+                })
+                break;
+        }
+
     });
+}
+
+const isIdTaken = (id) => {
+    let taken = false;
+    for (let i = 0; i < client.length; i++) {
+        if (client[i].user_id == id) {
+            taken = true;
+            break;
+        }
+    }
+    return taken;
+}
+
+function isIdUpdate(arg, ws) {
+    client[arg].ws = ws;
+}
+
+
+function findId(id) {
+    var i = 0;
+    for (i = 0; i < client.length; i++) {
+        if (client[i].user_id === id) {
+            return i;
+        }
+    }
+    return i;
 }

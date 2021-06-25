@@ -37,6 +37,7 @@ ws.onmessage = (e) => {
 
 ws.onclose = () => {
     console.log('ws close');
+    window.location.reload();
 }
 
 function onUser(user) {
